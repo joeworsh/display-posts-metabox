@@ -35,11 +35,13 @@ add_action('add_meta_boxes', 'dpmb_add_custom_box');
 
 function dpmb_custom_box_html($post)
 {
+	$header_val = get_post_meta($post->ID, 'dpmb_header', true);
+	$header_val = ((is_null($header_val) or $header_val == "") ? "Related Posts" : $header_val);
 	$value = get_post_meta($post->ID, 'dpmb_field', true);
 	$value = explode(",", $value);
 	?>
 	<label for="dpmb_header">Related content section header: </label>
-	<input type="text" name="dpmb_header" id="dpmb_header"></br>
+	<input type="text" name="dpmb_header" id="dpmb_header" value="<?php echo $header_val ?>" /></br>
 	<label for="dpmb_field">Related Posts: </label>
 	<select multiple name="dpmb_field[]" id="dpmb_field" class="postbox">
 		<?php
