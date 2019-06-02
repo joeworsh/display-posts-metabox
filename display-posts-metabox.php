@@ -14,17 +14,17 @@
 register_activation_hook( __FILE__, 'child_plugin_activate' );
 function child_plugin_activate()
 {
-    // Require parent plugin
-    if ( ! is_plugin_active( 'display-posts-shortcode/display-posts-shortcode.php' ) and current_user_can( 'activate_plugins' ) ) {
-        // Stop activation redirect and show error
-        wp_die('Sorry, but this plugin requires the <a href="https://displayposts.com">Display Posts Shortcode</a> plugin to be installed and active. <br><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');
-    }
+	// Require parent plugin
+	if ( ! is_plugin_active( 'display-posts-shortcode/display-posts-shortcode.php' ) and current_user_can( 'activate_plugins' ) ) {
+		// Stop activation redirect and show error
+		wp_die('Sorry, but this plugin requires the <a href="https://displayposts.com">Display Posts Shortcode</a> plugin to be installed and active. <br><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');
+	}
 }
 
 // add a metabox for selecting current posts in the db
 function dpmb_add_custom_box()
 {
-    add_meta_box(
+	add_meta_box(
 		'dpmb_select',           	// Unique ID
 		'Related Post Selection', 	// Box title
 		'dpmb_custom_box_html', 	// Content callback, must be of type callable
@@ -40,14 +40,14 @@ function dpmb_custom_box_html($post)
 	?>
 	<label for="dpmb_header">Related content section header: </label>
 	<input type="text" name="dpmb_header" id="dpmb_header"></br>
-    <label for="dpmb_field">Related Posts: </label>
-    <select multiple name="dpmb_field[]" id="dpmb_field" class="postbox">
-        <?php
+	<label for="dpmb_field">Related Posts: </label>
+	<select multiple name="dpmb_field[]" id="dpmb_field" class="postbox">
+		<?php
 		foreach( get_posts() as $post ) : setup_postdata($post); ?>
 			<option <?php echo (in_array($post->ID, $value) ? 'selected="selected"' : ""); ?> value="<?php echo $post->ID; ?>"><?php echo $post->post_title; ?></option>
 		<?php endforeach; ?>
-    </select>
-    <?php
+	</select>
+	<?php
 }
 
 function dpmb_save_postdata($post_id)
@@ -57,17 +57,17 @@ function dpmb_save_postdata($post_id)
 		'dpmb_header',
 		$_POST['dpmb_header']
 	);
-    if (array_key_exists('dpmb_field', $_POST)) {
-        update_post_meta(
-            $post_id,
-            'dpmb_field',
-            implode(",", $_POST['dpmb_field'])
-        );
-    }
+	if (array_key_exists('dpmb_field', $_POST)) {
+		update_post_meta(
+			$post_id,
+			'dpmb_field',
+			implode(",", $_POST['dpmb_field'])
+		);
+	}
 	else {
 		delete_post_meta(
 			$post_id,
-            'dpmb_field'
+			'dpmb_field'
 		);
 	}
 }
