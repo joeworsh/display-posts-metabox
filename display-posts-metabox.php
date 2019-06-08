@@ -21,6 +21,13 @@ function child_plugin_activate()
 	}
 }
 
+// register the custom CSS which controls how the displays are posted
+function dpmb_enqueue_scripts() {
+	wp_register_style('dpmb', plugins_url('display-posts-metabox.css',__FILE__ ));
+	wp_enqueue_style('dpmb');
+}
+add_action('wp_enqueue_scripts', 'dpmb_enqueue_scripts');
+
 // add a metabox for selecting current posts in the db
 function dpmb_add_custom_box()
 {
@@ -82,7 +89,7 @@ function dpmb_related_content($content)
 	{
 		$dpmb = get_post_meta(get_the_ID(), 'dpmb_field', true);
 		$dpmb = explode(",", $dpmb);
-		$sc = sprintf('[display-posts id="%s"  image_size="medium" include_excerpt="true" wrapper="div" wrapper_class="display-posts-listing grid" meta_key="_thumbnail_id"]',
+		$sc = sprintf('[display-posts id="%s"  image_size="medium" include_excerpt="true" wrapper="div" wrapper_class="display-posts-listing gridlist" meta_key="_thumbnail_id"]',
 			implode(",",$dpmb));
 		$after = sprintf('<h2>%s</h2>', get_post_meta(get_the_ID(), 'dpmb_header', true));
 		$after = $after . do_shortcode($sc);
